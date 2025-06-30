@@ -1,0 +1,33 @@
+<root BTCPP_format="4">
+  <BehaviorTree ID="MainTree">
+    <Sequence name="RootSequence">
+      <SubTree ID="LayerDetection"/>
+      <SubTree ID="GraspFirstLayer"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="LayerDetection">
+    <Sequence name="LayerDetectionSequence">
+      <Action ID="DINODetection"/>
+      <Action ID="SAM2Segmentation"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="GraspFirstLayer">
+    <Sequence name="Grasping">
+      <Action ID="MoveEEF" z="0.2"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- required for Groot2 -->     
+  <TreeNodesModel>
+      <Action ID="SAM2Segmentation"/>
+      <Action ID="DINODetection"/>
+      <Action ID="MoveEEF">
+        <input_port name="x" type="double" default="0.0" description="EEF target X"/>
+        <input_port name="y" type="double" default="0.0" description="EEF target Y"/>
+        <input_port name="z" type="double" default="0.0" description="EEF target Z"/>
+      </Action>    
+  </TreeNodesModel>
+</root>
+
