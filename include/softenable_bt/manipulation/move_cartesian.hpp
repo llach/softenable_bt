@@ -2,9 +2,9 @@
 #include <behaviortree_cpp/action_node.h>
 #include "softenable_bt/types/cartesian_target.hpp"
 
-class SAM2Segmentation : public BT::SyncActionNode {
+class MoveCartesian : public BT::SyncActionNode {
 public:
-  SAM2Segmentation(const std::string& name, const BT::NodeConfiguration& config);
+  MoveCartesian(const std::string& name, const BT::NodeConfiguration& config);
   BT::NodeStatus tick() override;
   static BT::PortsList providedPorts();
 };

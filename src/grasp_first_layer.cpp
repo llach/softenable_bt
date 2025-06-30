@@ -14,7 +14,10 @@ int main(int argc, char** argv)
     factory.registerNodeType<DINODetection>("DINODetection");
     factory.registerNodeType<MoveJoint>("MoveJoint");
     factory.registerNodeType<MoveEEF>("MoveEEF");
+    factory.registerNodeType<MoveCartesian>("MoveCartesian");
 
+    BT::Parser::registerRosTypes<CartesianTarget>();
+    
     auto tree = factory.createTreeFromFile("behavior_trees/grasp_first_layer.xml");
 
     tree.tickWhileRunning();
