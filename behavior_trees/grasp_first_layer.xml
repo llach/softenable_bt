@@ -15,7 +15,15 @@
 
   <BehaviorTree ID="GraspFirstLayer">
     <Sequence name="Grasping">
+      <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
       <Action ID="MoveEEF" z="0.2"/>
+      <Action ID="MoveJoint"
+        j1="{stored_joints[0]}"
+        j2="{stored_joints[1]}"
+        j3="{stored_joints[2]}"
+        j4="{stored_joints[3]}"
+        j5="{stored_joints[4]}"
+        j6="{stored_joints[5]}" />
     </Sequence>
   </BehaviorTree>
 
@@ -27,7 +35,18 @@
         <input_port name="x" type="double" default="0.0" description="EEF target X"/>
         <input_port name="y" type="double" default="0.0" description="EEF target Y"/>
         <input_port name="z" type="double" default="0.0" description="EEF target Z"/>
-      </Action>    
+      </Action>
+        <Action ID="StoreCurrentJointPos">
+        <output_port name="joint_out" type="array<double>" description="Array of current joint values (6 DOF)" />
+      </Action>
+      <Action ID="MoveJoint">
+        <input_port name="j1" type="double" description="Joint 1 position" />
+        <input_port name="j2" type="double" description="Joint 2 position" />
+        <input_port name="j3" type="double" description="Joint 3 position" />
+        <input_port name="j4" type="double" description="Joint 4 position" />
+        <input_port name="j5" type="double" description="Joint 5 position" />
+        <input_port name="j6" type="double" description="Joint 6 position" />
+      </Action>
   </TreeNodesModel>
 </root>
 
