@@ -4,7 +4,7 @@
   <BehaviorTree ID="MainTree">
     <Sequence name="RootSequence">
       <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
-        <!-- <Action ID="MoveEEF" z="0.2"/> -->
+      <Action ID="MoveEEF" z="0.2"/>
       <Action ID="MoveJoint" joint_values="{stored_joints}" />
       <Action ID="MoveJoint" joint_values="1;2;3;4;5;6" />
     </Sequence>
