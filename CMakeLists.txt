@@ -9,6 +9,9 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(stack_msgs REQUIRED)
+find_package(ament_index_cpp REQUIRED)
 
 ################
 ########    SKILLS LIBRARY
@@ -26,6 +29,9 @@ target_include_directories(softenable_skills PUBLIC
 )
 
 ament_target_dependencies(softenable_skills
+  rclcpp
+  stack_msgs
+  geometry_msgs
   behaviortree_cpp
 )
 
@@ -35,7 +41,13 @@ ament_target_dependencies(softenable_skills
 
 add_executable(grasp_first_layer src/grasp_first_layer.cpp)
 target_link_libraries(grasp_first_layer softenable_skills)
-ament_target_dependencies(grasp_first_layer rclcpp behaviortree_cpp)
+ament_target_dependencies(grasp_first_layer 
+  rclcpp 
+  behaviortree_cpp 
+  geometry_msgs
+  stack_msgs
+  ament_index_cpp
+)
 
 install(TARGETS
   grasp_first_layer

@@ -6,11 +6,19 @@ MoveCartesian::MoveCartesian(const std::string& name, const BT::NodeConfiguratio
 
 BT::NodeStatus MoveCartesian::tick()
 {
+  auto all_keys = config().blackboard->getKeys();
+  std::cout << "[MoveCartesian] Blackboard keys:\n";
+  for (const auto& key : all_keys) {
+      std::cout << "  - " << key << std::endl;
+  }
   auto target = getInput<CartesianTarget>("target_pose");
-  auto ik_frame = getInput<std::string>("ik_frame");
+  if (!target) {
+    throw BT::RuntimeError("MoveCartesian: missing input [target_pose] — ", target.error());
+  }
 
-  if (!target || !ik_frame) {
-    throw BT::RuntimeError("MoveCartesian: missing input(s)");
+  auto ik_frame = getInput<std::string>("ik_frame");
+  if (!ik_frame) {
+    throw BT::RuntimeError("MoveCartesian: missing input [ik_frame] — ", ik_frame.error());
   }
 
   const auto& pose = target->pose;

@@ -9,7 +9,9 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>behaviortree_cpp_v3</depend>
+  <depend>behaviortree_cpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>stack_msgs</depend>
   <depend>rclcpp</depend>
 
   <test_depend>ament_lint_auto</test_depend>

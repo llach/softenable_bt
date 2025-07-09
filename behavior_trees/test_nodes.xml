@@ -1,32 +1,25 @@
 <root main_tree_to_execute="MainTree" BTCPP_format="4">
   <BehaviorTree ID="MainTree">
-    <Sequence name="RootSequence">
-      <SubTree ID="LayerDetection" />
-      <SubTree ID="GraspFirstLayer"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="LayerDetection">
-    <Sequence name="LayerDetectionSequence">
-      <Action ID="DINODetection"/>
-      <Action ID="SAM2Segmentation" segmentation_pose="{segmentation_pose}"/>
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="GraspFirstLayer">
-    <Sequence name="Grasping">
-      <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
-      <Action ID="MoveCartesian" target_pose="{segmentation_pose}" ik_frame="tool0"/>
-      <Action ID="MoveEEF" z="0.2"/>
-      <Action ID="MoveJoint"
+  <Sequence name="RootSequence">
+    <!-- <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
+      <Action ID="MoveEEF" z="0.2"/> -->
+      <!-- <Action ID="MoveJoint"
         j1="{stored_joints[0]}"
         j2="{stored_joints[1]}"
         j3="{stored_joints[2]}"
         j4="{stored_joints[3]}"
         j5="{stored_joints[4]}"
-        j6="{stored_joints[5]}" />
-    </Sequence>
+        j6="{stored_joints[5]}" /> -->
+        <Action ID="MoveJoint"
+        j1="1"
+        j2="2"
+        j3="3"
+        j4="4"
+        j5="5"
+        j6="6" />
+        </Sequence>
   </BehaviorTree>
+
 
   <!-- required for Groot2 -->     
   <TreeNodesModel>

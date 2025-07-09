@@ -19,6 +19,12 @@ BT::NodeStatus SAM2Segmentation::tick()
   setOutput("segmentation_pose", target);
 
   std::cout << "SAM2Segmentation: produced CartesianTarget in frame " << target.frame_id << "\n";
+  
+  auto all_keys = config().blackboard->getKeys();
+std::cout << "[MoveCartesian] Blackboard keys:\n";
+for (const auto& key : all_keys) {
+    std::cout << "  - " << key << std::endl;
+}
   return BT::NodeStatus::SUCCESS;
 }
 
