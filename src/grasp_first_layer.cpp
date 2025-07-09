@@ -24,7 +24,6 @@ int main(int argc, char** argv)
         RCLCPP_INFO(ros_node->get_logger(), "Waiting for /move_arm service...");
     }
 
-
     BT::BehaviorTreeFactory factory;
 
     factory.registerNodeType<StoreCurrentJointPos>("StoreCurrentJointPos");

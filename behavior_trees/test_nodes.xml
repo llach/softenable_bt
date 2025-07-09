@@ -1,23 +1,11 @@
 <root main_tree_to_execute="MainTree" BTCPP_format="4">
   <BehaviorTree ID="MainTree">
-  <Sequence name="RootSequence">
-    <!-- <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
-      <Action ID="MoveEEF" z="0.2"/> -->
-      <!-- <Action ID="MoveJoint"
-        j1="{stored_joints[0]}"
-        j2="{stored_joints[1]}"
-        j3="{stored_joints[2]}"
-        j4="{stored_joints[3]}"
-        j5="{stored_joints[4]}"
-        j6="{stored_joints[5]}" /> -->
-        <Action ID="MoveJoint"
-        j1="1"
-        j2="2"
-        j3="3"
-        j4="4"
-        j5="5"
-        j6="6" />
-        </Sequence>
+    <Sequence name="RootSequence">
+      <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
+        <!-- <Action ID="MoveEEF" z="0.2"/> -->
+      <Action ID="MoveJoint" joint_values="{stored_joints}" />
+      <Action ID="MoveJoint" joint_values="1;2;3;4;5;6" />
+    </Sequence>
   </BehaviorTree>
 
 

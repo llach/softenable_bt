@@ -1,4 +1,5 @@
 #include "softenable_bt/manipulation/move_joint.hpp"
+#include "softenable_bt/types/joint_array.hpp"
 #include "rclcpp/executors.hpp"
 #include <iostream>
 
@@ -10,14 +11,11 @@ MoveJoint::MoveJoint(const std::string& name, const BT::NodeConfiguration& confi
 
 BT::NodeStatus MoveJoint::tick()
 {
-    std::array<double, 6> joints;
-    for (int i = 0; i < 6; ++i) {
-        auto val = getInput<double>("j" + std::to_string(i + 1));
-        if (!val) {
-            throw BT::RuntimeError("Missing joint value for j" + std::to_string(i + 1));
-        }
-        joints[i] = val.value();
-    }
+    auto joints_opt = getInput<JointArray>("joint_values");
+    if (!joints_opt)
+        throw BT::RuntimeError("Missing input port [joint_values]");
+
+    const auto& joints = joints_opt.value();
 
     std::cout << "Moving to joints: ";
     for (auto j : joints) std::cout << j << " ";
@@ -55,11 +53,6 @@ BT::NodeStatus MoveJoint::tick()
 BT::PortsList MoveJoint::providedPorts()
 {
     return {
-        BT::InputPort<double>("j1"),
-        BT::InputPort<double>("j2"),
-        BT::InputPort<double>("j3"),
-        BT::InputPort<double>("j4"),
-        BT::InputPort<double>("j5"),
-        BT::InputPort<double>("j6")
+        BT::InputPort<JointArray>("joint_values")
     };
 }

@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(stack_msgs REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 
@@ -20,6 +21,7 @@ file(GLOB_RECURSE SKILL_SOURCES
   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
   src/*/*.cpp
 )
+message(STATUS "SKILL_SOURCES = ${SKILL_SOURCES}")
 
 # Create the treenode library
 add_library(softenable_skills ${SKILL_SOURCES})
@@ -31,6 +33,7 @@ target_include_directories(softenable_skills PUBLIC
 ament_target_dependencies(softenable_skills
   rclcpp
   stack_msgs
+  sensor_msgs
   geometry_msgs
   behaviortree_cpp
 )
