@@ -14,6 +14,7 @@ MoveEEF::MoveEEF(const std::string& name, const BT::NodeConfiguration& config)
 
 BT::NodeStatus MoveEEF::tick()
 {
+    double time = getInput<double>("time").value_or(3.0); 
     double x = getInput<double>("x").value_or(0.0);
     double y = getInput<double>("y").value_or(0.0);
     double z = getInput<double>("z").value_or(0.0);
@@ -30,7 +31,7 @@ BT::NodeStatus MoveEEF::tick()
 
     auto request = std::make_shared<stack_msgs::srv::MoveArm::Request>();
     request->execute = true;
-    request->execution_time = 3.0;
+    request->execution_time = time;
     request->target_pose = pose_msg;
 
     // Call service synchronously
@@ -48,6 +49,7 @@ BT::NodeStatus MoveEEF::tick()
 BT::PortsList MoveEEF::providedPorts()
 {
     return {
+        BT::InputPort<double>("time", "Execution time in seconds"),
         BT::InputPort<double>("x"),
         BT::InputPort<double>("y"),
         BT::InputPort<double>("z")

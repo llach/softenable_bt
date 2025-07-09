@@ -32,6 +32,8 @@ BT::NodeStatus MoveCartesian::tick()
     throw BT::RuntimeError("MoveCartesian: missing input [ik_frame] — ", ik_frame.error());
   }
 
+  double time = getInput<double>("time").value_or(3.0); 
+
   std::cout << "MoveCartesian:\n"
             << "  To frame: " << frame << "\n"
             << "  Using IK frame: " << ik_frame.value() << "\n"
@@ -48,6 +50,7 @@ BT::NodeStatus MoveCartesian::tick()
   // Build request
   auto request = std::make_shared<stack_msgs::srv::MoveArm::Request>();
   request->execute = true;
+  request->execution_time = time;
   request->ik_link = ik_frame.value();
   request->target_pose = pose_msg;
 
@@ -66,6 +69,7 @@ BT::NodeStatus MoveCartesian::tick()
 BT::PortsList MoveCartesian::providedPorts()
 {
   return {
+    BT::InputPort<double>("time", "Execution time in seconds"),
     BT::InputPort<geometry_msgs::msg::PoseStamped>("target_pose"),
     BT::InputPort<std::string>("ik_frame")
   };

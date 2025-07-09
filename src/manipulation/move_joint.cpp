@@ -21,10 +21,12 @@ BT::NodeStatus MoveJoint::tick()
     for (auto j : joints) std::cout << j << " ";
     std::cout << "\n";
 
-     auto request = std::make_shared<stack_msgs::srv::MoveArm::Request>();
+    double time = getInput<double>("time").value_or(3.0); 
+
+    auto request = std::make_shared<stack_msgs::srv::MoveArm::Request>();
 
     request->execute = true;
-    request->execution_time = 3.0;
+    request->execution_time = time;
     request->name_target = { "joint_1", "joint_2", "joint_3", "joint_4", "joint_5", "joint_6" };
     request->q_target.reserve(6);
 
@@ -53,6 +55,7 @@ BT::NodeStatus MoveJoint::tick()
 BT::PortsList MoveJoint::providedPorts()
 {
     return {
+        BT::InputPort<double>("time", "Execution time in seconds"),
         BT::InputPort<JointArray>("joint_values")
     };
 }
