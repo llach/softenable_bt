@@ -1,0 +1,29 @@
+<root BTCPP_format="4">
+    <!-- required for Groot2 -->     
+    <TreeNodesModel>
+    <!-- perception nodes -->     
+    <Action ID="DINODetection"/>
+    <Action ID="SAM2Segmentation">
+        <output_port name="segmentation_pose" type="CartesianTarget" description="Segmented pose with frame" />
+    </Action>
+
+    <!-- manipulation nodes -->     
+    <Action ID="MoveEEF">
+        <input_port name="x" type="double" default="0.0" description="EEF target X"/>
+        <input_port name="y" type="double" default="0.0" description="EEF target Y"/>
+        <input_port name="z" type="double" default="0.0" description="EEF target Z"/>
+    </Action>
+    <Action ID="MoveJoint">
+        <input_port name="joint_values" type="JointArray" description="Array of 6 joint positions" />
+    </Action>
+    <Action ID="MoveCartesian">
+        <input_port name="target_pose" type="CartesianTarget" description="Target pose and frame" />
+        <input_port name="ik_frame" type="string" description="IK reference frame" />
+    </Action>
+
+    <!-- helper nodes -->     
+    <Action ID="StoreCurrentJointPos">
+        <output_port name="joint_out" type="JointArray" description="Array of current joint values (6 DOF)" />
+    </Action>
+    </TreeNodesModel>
+</root>

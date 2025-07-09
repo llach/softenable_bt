@@ -1,4 +1,6 @@
 <root main_tree_to_execute="MainTree" BTCPP_format="4">
+  <include path="tree_nodes_model.xml" />
+
   <BehaviorTree ID="MainTree">
     <Sequence name="RootSequence">
       <SubTree ID="LayerDetection" />
@@ -28,37 +30,5 @@
     </Sequence>
   </BehaviorTree>
 
-  <!-- required for Groot2 -->     
-  <TreeNodesModel>
-      <!-- perception nodes -->     
-      <Action ID="DINODetection"/>
-      <Action ID="SAM2Segmentation">
-        <output_port name="segmentation_pose" type="CartesianTarget" description="Segmented pose with frame" />
-      </Action>
-
-      <!-- manipulation nodes -->     
-      <Action ID="MoveEEF">
-        <input_port name="x" type="double" default="0.0" description="EEF target X"/>
-        <input_port name="y" type="double" default="0.0" description="EEF target Y"/>
-        <input_port name="z" type="double" default="0.0" description="EEF target Z"/>
-      </Action>
-      <Action ID="MoveJoint">
-        <input_port name="j1" type="double" description="Joint 1 position" />
-        <input_port name="j2" type="double" description="Joint 2 position" />
-        <input_port name="j3" type="double" description="Joint 3 position" />
-        <input_port name="j4" type="double" description="Joint 4 position" />
-        <input_port name="j5" type="double" description="Joint 5 position" />
-        <input_port name="j6" type="double" description="Joint 6 position" />
-      </Action>
-      <Action ID="MoveCartesian">
-        <input_port name="target_pose" type="CartesianTarget" description="Target pose and frame" />
-        <input_port name="ik_frame" type="string" description="IK reference frame" />
-      </Action>
-
-      <!-- helper nodes -->     
-      <Action ID="StoreCurrentJointPos">
-        <output_port name="joint_out" type="array<double>" description="Array of current joint values (6 DOF)" />
-      </Action>
-  </TreeNodesModel>
 </root>
 
