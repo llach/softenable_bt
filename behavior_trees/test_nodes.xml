@@ -3,7 +3,9 @@
   
   <BehaviorTree ID="MainTree">
     <Sequence name="RootSequence">
+      <Action ID="StackDetection" stack_pose="{stack_pose}" />
       <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
+      <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="wrist_3_link" />
       <Action ID="MoveEEF" z="0.2"/>
       <Action ID="MoveJoint" joint_values="{stored_joints}" />
       <Action ID="MoveJoint" joint_values="1;2;3;4;5;6" />

@@ -6,6 +6,9 @@
     <Action ID="SAM2Segmentation">
         <output_port name="segmentation_pose" type="CartesianTarget" description="Segmented pose with frame" />
     </Action>
+    <Action ID="StackDetection">
+      <output_port name="stack_pose" type="geometry_msgs::msg::PoseStamped" description="Pose from stack detection" />
+    </Action>
 
     <!-- manipulation nodes -->     
     <Action ID="MoveEEF">
@@ -17,7 +20,7 @@
         <input_port name="joint_values" type="JointArray" description="Array of 6 joint positions" />
     </Action>
     <Action ID="MoveCartesian">
-        <input_port name="target_pose" type="CartesianTarget" description="Target pose and frame" />
+        <input_port name="target_pose" type="geometry_msgs::msg::PoseStamped" description="Target pose and frame" />
         <input_port name="ik_frame" type="string" description="IK reference frame" />
     </Action>
 

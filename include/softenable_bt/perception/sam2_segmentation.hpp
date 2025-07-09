@@ -1,6 +1,5 @@
 #pragma once
 #include <behaviortree_cpp/action_node.h>
-#include "softenable_bt/types/cartesian_target.hpp"
 
 class SAM2Segmentation : public BT::SyncActionNode {
 public:
