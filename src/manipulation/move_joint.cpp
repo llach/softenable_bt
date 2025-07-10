@@ -27,7 +27,7 @@ BT::NodeStatus MoveJoint::tick()
 
     request->execute = true;
     request->execution_time = time;
-    request->name_target = { "joint_1", "joint_2", "joint_3", "joint_4", "joint_5", "joint_6" };
+    request->name_target = { "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint" };
     request->q_target.reserve(6);
 
     for (double j : joints) {

@@ -4,6 +4,7 @@
 #include <filesystem>
 #include "ament_index_cpp/get_package_share_directory.hpp"
 
+#include "softenable_bt/helpers/tf_listener_wrapper.hpp"
 #include "softenable_bt/perception/stack_detection.hpp"
 #include "softenable_bt/perception/sam2_segmentation.hpp"
 #include "softenable_bt/perception/dino_detection.hpp"
@@ -17,6 +18,7 @@ int main(int argc, char** argv)
     rclcpp::init(argc, argv);
     auto ros_node = rclcpp::Node::make_shared("bt_move_arm_node");
 
+    auto tf_wrapper = std::make_shared<softenable_bt::TFListenerWrapper>(ros_node);
     auto move_arm_client = ros_node->create_client<stack_msgs::srv::MoveArm>("/move_arm");
     auto stack_detect_client = ros_node->create_client<stack_msgs::srv::StackDetect>("/stack_detect");
 
@@ -40,11 +42,23 @@ int main(int argc, char** argv)
 
     auto blackboard = BT::Blackboard::create();
     blackboard->set("ros_node", ros_node);
+    blackboard->set("tf_wrapper", tf_wrapper);
     blackboard->set("move_arm_client", move_arm_client);
     blackboard->set("stack_detect_client", stack_detect_client);
 
-    auto tree = factory.createTreeFromFile(tree_path, blackboard);
+    try {
+        auto pose = tf_wrapper->lookupTransform("map", "wrist_3_link", rclcpp::Duration::from_seconds(2.0));
+        RCLCPP_INFO(tf_wrapper->getNode()->get_logger(),
+                    "Got pose: [%.2f, %.2f, %.2f]",
+                    pose.pose.position.x,
+                    pose.pose.position.y,
+                    pose.pose.position.z);
+    } catch (const tf2::TransformException& ex) {
+        RCLCPP_ERROR(tf_wrapper->getNode()->get_logger(), "TF lookup failed: %s", ex.what());
+        return -1;
+    }
 
+    auto tree = factory.createTreeFromFile(tree_path, blackboard);
     tree.tickWhileRunning();
 
     return 0;

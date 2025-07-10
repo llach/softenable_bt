@@ -24,4 +24,13 @@ private:
     JointArray latest_joints_;
     rclcpp::Time start_time_;
     bool has_received_ = false;
+    std::vector<std::string> expected_joint_names_ = {
+        "shoulder_pan_joint",
+        "shoulder_lift_joint",
+        "elbow_joint",
+        "wrist_1_joint",
+        "wrist_2_joint",
+        "wrist_3_joint"
+    };
+    
 };

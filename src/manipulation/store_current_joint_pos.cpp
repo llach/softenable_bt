@@ -19,12 +19,25 @@ void StoreCurrentJointPos::jointCallback(const sensor_msgs::msg::JointState::Sha
         has_received_ = true;
     }
 
-    // Assume the robot has at least 6 joints
-    if (msg->position.size() >= 6)
+    // Build a map of joint name → position
+    std::unordered_map<std::string, double> joint_map;
+    for (size_t i = 0; i < msg->name.size(); ++i)
     {
-        for (size_t i = 0; i < 6; ++i)
+        joint_map[msg->name[i]] = msg->position[i];
+    }
+
+    // Extract only the expected joints in the desired order
+    for (size_t i = 0; i < expected_joint_names_.size(); ++i)
+    {
+        const auto& joint_name = expected_joint_names_[i];
+        auto it = joint_map.find(joint_name);
+        if (it != joint_map.end())
         {
-            latest_joints_[i] = msg->position[i];
+            latest_joints_[i] = it->second;
+        }
+        else
+        {
+            RCLCPP_WARN(node_->get_logger(), "Joint '%s' not found in /joint_states", joint_name.c_str());
         }
     }
 }

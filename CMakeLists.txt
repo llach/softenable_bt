@@ -13,6 +13,8 @@ find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(stack_msgs REQUIRED)
 find_package(ament_index_cpp REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 ################
 ########    SKILLS LIBRARY
@@ -35,6 +37,8 @@ ament_target_dependencies(softenable_skills
   stack_msgs
   sensor_msgs
   geometry_msgs
+  tf2_ros
+  tf2_geometry_msgs
   behaviortree_cpp
 )
 
@@ -49,6 +53,8 @@ ament_target_dependencies(grasp_first_layer
   behaviortree_cpp 
   geometry_msgs
   stack_msgs
+  tf2_ros
+  tf2_geometry_msgs
   ament_index_cpp
 )
 
