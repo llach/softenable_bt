@@ -16,23 +16,26 @@ BT::NodeStatus StackDetection::tick()
     std::cout << "Calling stack_detect ...\n";
     
     auto future = client_->async_send_request(request);
-    if (!future.valid())
-    {
-        std::cerr << "StackDetection: async_send_request did not return a valid future\n";
-        return BT::NodeStatus::FAILURE;
-    }
+    auto result = rclcpp::spin_until_future_complete(node_, future, std::chrono::seconds(60));
 
-    std::cout << "Waiting for stack_detect response ...\n";
-    auto result = rclcpp::spin_until_future_complete(node_, future, std::chrono::seconds(500));
     auto response = future.get();
-
-    if (!response->success) {
-        std::cerr << "StackDetection: service returned unsuccessful\n";
+    if (result == rclcpp::FutureReturnCode::SUCCESS && response->success) {
+        std::cout << "StackDetection succeeded!\n";
+    } else {
+        std::cerr << "StackDetection failed ....\n";
         return BT::NodeStatus::FAILURE;
     }
 
-    setOutput("stack_pose", response->target_pose);
-    std::cout << "StackDetection: stored stack_pose from service response\n";
+    auto pose = response->target_pose;
+    RCLCPP_INFO(node_->get_logger(),
+        "Stack position: [%.2f, %.2f, %.2f]",
+        pose.pose.position.x,
+        pose.pose.position.y,
+        pose.pose.position.z
+    );
+
+    setOutput("stack_pose", pose);
+
     return BT::NodeStatus::SUCCESS;
 }
 

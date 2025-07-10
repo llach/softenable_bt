@@ -9,6 +9,7 @@
 #include "softenable_bt/perception/sam2_segmentation.hpp"
 #include "softenable_bt/perception/dino_detection.hpp"
 #include "softenable_bt/manipulation/move_eef.hpp"
+#include "softenable_bt/manipulation/roller_gripper.hpp"
 #include "softenable_bt/manipulation/store_current_joint_pos.hpp"
 #include "softenable_bt/manipulation/move_joint.hpp"
 #include "softenable_bt/manipulation/move_cartesian.hpp"
@@ -21,11 +22,23 @@ int main(int argc, char** argv)
     auto tf_wrapper = std::make_shared<softenable_bt::TFListenerWrapper>(ros_node);
     auto move_arm_client = ros_node->create_client<stack_msgs::srv::MoveArm>("/move_arm");
     auto stack_detect_client = ros_node->create_client<stack_msgs::srv::StackDetect>("/stack_detect");
+    auto roller_gripper_client = ros_node->create_client<stack_msgs::srv::RollerGripper>("/roller_gripper");
 
-    // Wait for service (optional)
-    while (!move_arm_client->wait_for_service(std::chrono::seconds(1))) {
+
+    while (!move_arm_client->wait_for_service(std::chrono::seconds(5))) {
         RCLCPP_INFO(ros_node->get_logger(), "Waiting for /move_arm service...");
     }
+
+    while (!stack_detect_client->wait_for_service(std::chrono::seconds(5))) {
+        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /stack_detect service...");
+    }
+
+    while (!roller_gripper_client->wait_for_service(std::chrono::seconds(5))) {
+        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /roller_gripper service...");
+    }
+
+
+    std::cout << "services are connected!\n";
 
     BT::BehaviorTreeFactory factory;
 
@@ -34,17 +47,20 @@ int main(int argc, char** argv)
     factory.registerNodeType<StackDetection>("StackDetection");
     factory.registerNodeType<DINODetection>("DINODetection");
     factory.registerNodeType<MoveCartesian>("MoveCartesian");
+    factory.registerNodeType<RollerGripper>("RollerGripper");
     factory.registerNodeType<MoveJoint>("MoveJoint");
     factory.registerNodeType<MoveEEF>("MoveEEF");
 
     std::string package_path = ament_index_cpp::get_package_share_directory("softenable_bt");
-    std::string tree_path = package_path + "/behavior_trees/test_nodes.xml";
+    std::string tree_path = package_path + "/behavior_trees/grasp_first_layer.xml";
+    // std::string tree_path = package_path + "/behavior_trees/test_nodes.xml";
 
     auto blackboard = BT::Blackboard::create();
     blackboard->set("ros_node", ros_node);
     blackboard->set("tf_wrapper", tf_wrapper);
     blackboard->set("move_arm_client", move_arm_client);
     blackboard->set("stack_detect_client", stack_detect_client);
+    blackboard->set("roller_gripper_client", roller_gripper_client);
 
     try {
         auto pose = tf_wrapper->lookupTransform("map", "wrist_3_link", rclcpp::Duration::from_seconds(2.0));

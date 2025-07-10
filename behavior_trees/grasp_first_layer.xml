@@ -1,27 +1,15 @@
 <root main_tree_to_execute="MainTree" BTCPP_format="4">
   <include path="tree_nodes_model.xml" />
 
-  <BehaviorTree ID="MainTree">
+    <BehaviorTree ID="MainTree">
     <Sequence name="RootSequence">
-      <SubTree ID="LayerDetection" />
-      <SubTree ID="GraspFirstLayer" />
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="LayerDetection">
-    <Sequence name="LayerDetectionSequence">
-      <Action ID="DINODetection"/>
-      <Action ID="SAM2Segmentation" segmentation_pose="{segmentation_pose}" />
-    </Sequence>
-  </BehaviorTree>
-
-  <BehaviorTree ID="GraspFirstLayer">
-    <Sequence name="Grasping">
       <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
       <Action ID="StackDetection" stack_pose="{stack_pose}" />
-      <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="wrist_3_link" time="2.0" />
-      <Action ID="MoveEEF" z="0.2" time="2.0" />
-      <Action ID="MoveJoint" joint_values="{stored_joints}" time="2.0" />
+      <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="wrist_3_link" time="5" />
+      <Action ID="MoveEEF" z="0.01" time="1"/>
+      <Action ID="MoveEEF" y="0.03" time="1"/>
+      <!-- <Action ID="MoveEEF" x="0.05" time="2.5"/> -->
+      <Action ID="MoveJoint" joint_values="{stored_joints}" time="3" />
     </Sequence>
   </BehaviorTree>
 </root>

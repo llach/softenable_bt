@@ -13,19 +13,16 @@ MoveCartesian::MoveCartesian(const std::string& name, const BT::NodeConfiguratio
 
 BT::NodeStatus MoveCartesian::tick()
 {
-  auto all_keys = config().blackboard->getKeys();
-  std::cout << "[MoveCartesian] Blackboard keys:\n";
-  for (const auto& key : all_keys) {
-    std::cout << "  - " << key << std::endl;
-  }
+  // auto all_keys = config().blackboard->getKeys();
+  // std::cout << "[MoveCartesian] Blackboard keys:\n";
+  // for (const auto& key : all_keys) {
+  //   std::cout << "  - " << key << std::endl;
+  // }
 
   auto target = getInput<geometry_msgs::msg::PoseStamped>("target_pose");
   if (!target) {
     throw BT::RuntimeError("MoveCartesian: missing input [target_pose] — ", target.error());
   }
-
-  const geometry_msgs::msg::Pose& pose = target->pose;
-  const std::string frame = target->header.frame_id;
 
   auto ik_frame = getInput<std::string>("ik_frame");
   if (!ik_frame) {
@@ -34,25 +31,12 @@ BT::NodeStatus MoveCartesian::tick()
 
   double time = getInput<double>("time").value_or(3.0); 
 
-  std::cout << "MoveCartesian:\n"
-            << "  To frame: " << frame << "\n"
-            << "  Using IK frame: " << ik_frame.value() << "\n"
-            << "  Pose: [" << pose.position.x << ", "
-            << pose.position.y << ", "
-            << pose.position.z << "]\n";
-
-  // Create PoseStamped message
-  geometry_msgs::msg::PoseStamped pose_msg;
-  pose_msg.header.frame_id = frame;
-  pose_msg.header.stamp = node_->now();  // Assumes node_ is set
-  pose_msg.pose = pose;
-
   // Build request
   auto request = std::make_shared<stack_msgs::srv::MoveArm::Request>();
   request->execute = true;
   request->execution_time = time;
   request->ik_link = ik_frame.value();
-  request->target_pose = pose_msg;
+  request->target_pose = target.value();
 
   // Call service
   auto future = client_->async_send_request(request);

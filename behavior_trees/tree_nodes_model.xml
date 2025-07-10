@@ -26,6 +26,12 @@
         <input_port name="target_pose" type="geometry_msgs::msg::PoseStamped" description="Target pose and frame" />
         <input_port name="ik_frame" type="string" description="IK reference frame" />
     </Action>
+    <Action ID="RollerGripper">
+        <input_port name="action" type="string" description="'open', 'close' or 'roll'" />
+        <input_port name="roller_vel" type="int" description="Roller velocity (required if action=='roll')" />
+        <input_port name="roller_duration" type="int" description="Duration of roller movement in seconds (required if action=='roll')" />
+    </Action>
+
 
     <!-- helper nodes -->     
     <Action ID="StoreCurrentJointPos">
