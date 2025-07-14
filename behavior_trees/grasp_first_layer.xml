@@ -4,12 +4,25 @@
     <BehaviorTree ID="MainTree">
     <Sequence name="RootSequence">
       <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
+      <Action ID="RollerGripper" action="open" />
+
       <Action ID="StackDetection" stack_pose="{stack_pose}" />
-      <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="wrist_3_link" time="5" />
-      <Action ID="MoveEEF" z="0.01" time="1"/>
-      <Action ID="MoveEEF" y="0.03" time="1"/>
-      <!-- <Action ID="MoveEEF" x="0.05" time="2.5"/> -->
+      <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="wrist_3_link" time="3" />
+      
+      <Action ID="MoveEEF" y="0.035" z="-0.006" time="1"/>
+      <Action ID="RollerGripper" action="close" />
+      <Action ID="MoveEEF" y="-0.1" time="2.5"/>
+      
       <Action ID="MoveJoint" joint_values="{stored_joints}" time="3" />
     </Sequence>
   </BehaviorTree>
 </root>
+
+<!-- 
+RollerGripper examples
+
+<Action ID="RollerGripper" action="open" />
+<Action ID="RollerGripper" action="close" />
+<Action ID="RollerGripper" action="roll" roller_vel="-80" roller_duration="3" /> // rolls towards the fingers
+<Action ID="RollerGripper" action="roll" roller_vel="80" roller_duration="3" />
+-->

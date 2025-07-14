@@ -19,21 +19,18 @@ BT::PortsList RollerGripper::providedPorts()
 
 BT::NodeStatus RollerGripper::tick()
 {
-    std::cout << "here\n";
     std::string action;
     if (!getInput("action", action)) {
         RCLCPP_ERROR(node_->get_logger(), "Missing required input [action]");
         return BT::NodeStatus::FAILURE;
     }
-    std::cout << "here\n";
 
     auto request = std::make_shared<stack_msgs::srv::RollerGripper::Request>();
-    std::cout << "here\n";
 
     if (action == "open") {
-        request->finger_pos = 0;
+        request->finger_pos = 2500;
     } else if (action == "close") {
-        request->finger_pos = 1;
+        request->finger_pos = 800;
     } else if (action == "roll") {
         int vel, duration;
         if (!getInput("roller_vel", vel) || !getInput("roller_duration", duration)) {
@@ -46,11 +43,9 @@ BT::NodeStatus RollerGripper::tick()
         RCLCPP_ERROR(node_->get_logger(), "Invalid action: %s", action.c_str());
         return BT::NodeStatus::FAILURE;
     }
-    std::cout << "here1\n";
 
     auto future = client_->async_send_request(request);
     auto result = rclcpp::spin_until_future_complete(node_, future, std::chrono::seconds(5));
-    std::cout << "here2\n";
 
     if (result != rclcpp::FutureReturnCode::SUCCESS || !future.get()->success) {
         RCLCPP_ERROR(node_->get_logger(), "RollerGripper action failed.");
