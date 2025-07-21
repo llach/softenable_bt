@@ -11,6 +11,22 @@ MoveJoint::MoveJoint(const std::string& name, const BT::NodeConfiguration& confi
 
 BT::NodeStatus MoveJoint::tick()
 {
+    std::string controller_name;
+    if (!getInput<std::string>("controller_name", controller_name))
+    {
+        // input port not provided, fallback to blackboard directly
+        auto blackboard = config().blackboard;
+        if (!blackboard)
+        {
+        throw BT::RuntimeError("Blackboard is nullptr, cannot fallback");
+        }
+
+        if (!blackboard->get("default_controller_name", controller_name))
+        {
+        throw BT::RuntimeError("Missing both input port 'controller_name' and blackboard key 'default_controller_name'");
+        }
+    }
+    
     auto joints_opt = getInput<JointArray>("joint_values");
     if (!joints_opt)
         throw BT::RuntimeError("Missing input port [joint_values]");
@@ -27,7 +43,8 @@ BT::NodeStatus MoveJoint::tick()
 
     request->execute = true;
     request->execution_time = time;
-    request->name_target = { "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint" };
+    request->controller_name = controller_name;
+    request->name_target = { "right_arm_shoulder_pan_joint", "right_arm_shoulder_lift_joint", "right_arm_elbow_joint", "right_arm_wrist_1_joint", "right_arm_wrist_2_joint", "right_arm_wrist_3_joint" };
     request->q_target.reserve(6);
 
     for (double j : joints) {
@@ -56,6 +73,7 @@ BT::PortsList MoveJoint::providedPorts()
 {
     return {
         BT::InputPort<double>("time", "Execution time in seconds"),
-        BT::InputPort<JointArray>("joint_values")
+        BT::InputPort<std::string>("controller_name"),
+        BT::InputPort<JointArray>("joint_values"),
     };
 }

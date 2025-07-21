@@ -19,6 +19,22 @@ BT::NodeStatus MoveCartesian::tick()
   //   std::cout << "  - " << key << std::endl;
   // }
 
+  std::string controller_name;
+  if (!getInput<std::string>("controller_name", controller_name))
+  {
+    // input port not provided, fallback to blackboard directly
+    auto blackboard = config().blackboard;
+    if (!blackboard)
+    {
+      throw BT::RuntimeError("Blackboard is nullptr, cannot fallback");
+    }
+
+    if (!blackboard->get("default_controller_name", controller_name))
+    {
+      throw BT::RuntimeError("Missing both input port 'controller_name' and blackboard key 'default_controller_name'");
+    }
+  }
+
   auto target = getInput<geometry_msgs::msg::PoseStamped>("target_pose");
   if (!target) {
     throw BT::RuntimeError("MoveCartesian: missing input [target_pose] — ", target.error());
@@ -34,6 +50,7 @@ BT::NodeStatus MoveCartesian::tick()
   // Build request
   auto request = std::make_shared<stack_msgs::srv::MoveArm::Request>();
   request->execute = true;
+  request->controller_name = controller_name;
   request->execution_time = time;
   request->ik_link = ik_frame.value();
   request->target_pose = target.value();
@@ -53,6 +70,7 @@ BT::NodeStatus MoveCartesian::tick()
 BT::PortsList MoveCartesian::providedPorts()
 {
   return {
+    BT::InputPort<std::string>("controller_name"),
     BT::InputPort<double>("time", "Execution time in seconds"),
     BT::InputPort<geometry_msgs::msg::PoseStamped>("target_pose"),
     BT::InputPort<std::string>("ik_frame")

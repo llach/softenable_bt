@@ -25,12 +25,12 @@ private:
     rclcpp::Time start_time_;
     bool has_received_ = false;
     std::vector<std::string> expected_joint_names_ = {
-        "shoulder_pan_joint",
-        "shoulder_lift_joint",
-        "elbow_joint",
-        "wrist_1_joint",
-        "wrist_2_joint",
-        "wrist_3_joint"
+        "right_arm_shoulder_pan_joint",
+        "right_arm_shoulder_lift_joint",
+        "right_arm_elbow_joint",
+        "right_arm_wrist_1_joint",
+        "right_arm_wrist_2_joint",
+        "right_arm_wrist_3_joint"
     };
     
 };

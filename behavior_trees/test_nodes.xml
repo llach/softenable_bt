@@ -2,17 +2,18 @@
   <include path="tree_nodes_model.xml" />
   
   <BehaviorTree ID="MainTree">
+
     <Sequence name="RootSequence">
-      <!-- <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
-      <Action ID="StackDetection" stack_pose="{stack_pose}" />
-      <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="wrist_3_link" time="5" /> -->
-      <RollerGripper action="open"/>
+      <SetBlackboard output_key="default_controller_name" value="right_arm_joint_trajectory_controller"/>
+
+      <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
+      <!-- <RollerGripper action="open"/>
       <RollerGripper action="close"/>
-      <RollerGripper action="roll" roller_vel="100" roller_duration="3"/>
-      <!-- <Action ID="MoveEEF" z="-0.05" time="2.5"/> -->
+      <RollerGripper action="roll" roller_vel="100" roller_duration="3"/> -->
+      <Action ID="MoveEEF" z="0.05" time="2.5"/>
       <!-- <Action ID="MoveEEF" y="-0.05" time="2.5"/> -->
       <!-- <Action ID="MoveEEF" x="0.05" time="2.5"/> -->
-      <!-- <Action ID="MoveJoint" joint_values="{stored_joints}" time="2.5" /> -->
+      <Action ID="MoveJoint" joint_values="{stored_joints}" time="2.5" />
     </Sequence>
   </BehaviorTree>
 

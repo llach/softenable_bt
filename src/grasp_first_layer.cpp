@@ -29,13 +29,13 @@ int main(int argc, char** argv)
         RCLCPP_INFO(ros_node->get_logger(), "Waiting for /move_arm service...");
     }
 
-    while (!stack_detect_client->wait_for_service(std::chrono::seconds(5))) {
-        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /stack_detect service...");
-    }
+    // while (!stack_detect_client->wait_for_service(std::chrono::seconds(5))) {
+    //     RCLCPP_INFO(ros_node->get_logger(), "Waiting for /stack_detect service...");
+    // }
 
-    while (!roller_gripper_client->wait_for_service(std::chrono::seconds(5))) {
-        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /roller_gripper service...");
-    }
+    // while (!roller_gripper_client->wait_for_service(std::chrono::seconds(5))) {
+    //     RCLCPP_INFO(ros_node->get_logger(), "Waiting for /roller_gripper service...");
+    // }
 
 
     std::cout << "services are connected!\n";
@@ -52,8 +52,8 @@ int main(int argc, char** argv)
     factory.registerNodeType<MoveEEF>("MoveEEF");
 
     std::string package_path = ament_index_cpp::get_package_share_directory("softenable_bt");
-    std::string tree_path = package_path + "/behavior_trees/grasp_first_layer.xml";
-    // std::string tree_path = package_path + "/behavior_trees/test_nodes.xml";
+    // std::string tree_path = package_path + "/behavior_trees/grasp_first_layer.xml";
+    std::string tree_path = package_path + "/behavior_trees/test_nodes.xml";
 
     auto blackboard = BT::Blackboard::create();
     blackboard->set("ros_node", ros_node);
@@ -63,7 +63,7 @@ int main(int argc, char** argv)
     blackboard->set("roller_gripper_client", roller_gripper_client);
 
     try {
-        auto pose = tf_wrapper->lookupTransform("map", "wrist_3_link", rclcpp::Duration::from_seconds(2.0));
+        auto pose = tf_wrapper->lookupTransform("map", "right_arm_wrist_3_link", rclcpp::Duration::from_seconds(2.0));
         RCLCPP_INFO(tf_wrapper->getNode()->get_logger(),
                     "Got pose: [%.2f, %.2f, %.2f]",
                     pose.pose.position.x,
