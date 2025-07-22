@@ -7,13 +7,15 @@
       <SetBlackboard output_key="default_controller_name" value="right_arm_joint_trajectory_controller"/>
 
       <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
-      <!-- <RollerGripper action="open"/>
-      <RollerGripper action="close"/>
-      <RollerGripper action="roll" roller_vel="100" roller_duration="3"/> -->
-      <Action ID="MoveEEF" z="0.05" time="2.5"/>
-      <!-- <Action ID="MoveEEF" y="-0.05" time="2.5"/> -->
-      <!-- <Action ID="MoveEEF" x="0.05" time="2.5"/> -->
-      <Action ID="MoveJoint" joint_values="{stored_joints}" time="2.5" />
+
+      <Action ID="StackDetection" stack_pose="{stack_pose}" />
+      <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="right_arm_wrist_3_link" time="15" />
+
+      <Action ID="MoveEEF" y="0.035" z="-0.006" time="10"/>
+      <Action ID="RollerGripper" action="close" />
+      <Action ID="MoveEEF" y="-0.1" time="10"/>
+
+      <Action ID="MoveJoint" joint_values="{stored_joints}" time="15" />
     </Sequence>
   </BehaviorTree>
 

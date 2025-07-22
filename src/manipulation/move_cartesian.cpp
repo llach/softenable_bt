@@ -54,6 +54,7 @@ BT::NodeStatus MoveCartesian::tick()
   request->execution_time = time;
   request->ik_link = ik_frame.value();
   request->target_pose = target.value();
+  request->name_target = { "right_arm_shoulder_pan_joint", "right_arm_shoulder_lift_joint", "right_arm_elbow_joint", "right_arm_wrist_1_joint", "right_arm_wrist_2_joint", "right_arm_wrist_3_joint" };
 
   // Call service
   auto future = client_->async_send_request(request);
