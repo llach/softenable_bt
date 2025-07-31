@@ -6,7 +6,8 @@
     <Sequence name="RootSequence">
       <SetBlackboard output_key="default_controller_name" value="right_arm_joint_trajectory_controller"/>
 
-      <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
+      <Action ID="RollerGripper" action="open" />
+      <!-- <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
 
       <Action ID="StackDetection" stack_pose="{stack_pose}" />
       <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="right_arm_wrist_3_link" time="15" />
@@ -14,6 +15,22 @@
       <Action ID="MoveEEF" y="0.035" z="-0.006" time="10"/>
       <Action ID="RollerGripper" action="close" />
       <Action ID="MoveEEF" y="-0.1" time="10"/>
+
+      <Action ID="MoveJoint" joint_values="{stored_joints}" time="15" /> -->
+
+
+      <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
+       
+      <Action ID="MoveJoint" joint_values="-0.857733;-1.01201;1.62415;5.23073;1.70462;4.00249" time="15" /> <!-- pre table -->
+      <Action ID="MoveJoint" joint_values="-1.04308;-0.885265;1.64143;4.76992;1.15373;4.13202" time="15" /> <!-- pre table rotated -->
+      <Action ID="MoveJoint" joint_values="-0.780332;-1.11139;2.19627;4.28878;1.03313;4.00954" time="15" /> <!-- pre place -->
+      <Action ID="MoveJoint" joint_values="-0.681771;-1.1655;1.96903;4.61242;1.09513;3.92359" time="15" /> <!-- place (move down) -->
+
+      <Action ID="RollerGripper" action="open" />
+
+      <Action ID="MoveJoint" joint_values="-0.738239;-1.13539;2.19723;4.33107;1.05936;3.97158" time="15" /> <!-- post place up -->
+      <Action ID="MoveJoint" joint_values="-0.987232;-0.957048;1.89234;4.3203;0.915722;4.21665" time="15" /> <!-- post place forward -->
+      <Action ID="MoveJoint" joint_values="-1.44147;-0.517127;2.03782;3.29179;0.791234;0.0132583" time="15" /> <!-- david start pose -->
 
       <Action ID="MoveJoint" joint_values="{stored_joints}" time="15" />
     </Sequence>
