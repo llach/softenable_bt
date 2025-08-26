@@ -52,8 +52,8 @@ int main(int argc, char** argv)
     factory.registerNodeType<MoveEEF>("MoveEEF");
 
     std::string package_path = ament_index_cpp::get_package_share_directory("softenable_bt");
-    std::string tree_path = package_path + "/behavior_trees/grasp_first_layer.xml";
-    // std::string tree_path = package_path + "/behavior_trees/test_nodes.xml";
+    // std::string tree_path = package_path + "/behavior_trees/grasp_first_layer.xml";
+    std::string tree_path = package_path + "/behavior_trees/test_nodes.xml";
 
     auto blackboard = BT::Blackboard::create();
     blackboard->set("ros_node", ros_node);
