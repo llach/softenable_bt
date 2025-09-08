@@ -6,7 +6,9 @@
     <Sequence name="RootSequence">
       <SetBlackboard output_key="default_controller_name" value="right_arm_joint_trajectory_controller"/>
 
-      <Action ID="RollerGripper" prefix="left" action="open" />
+      <TriggerService service_name="/trigger_test"/>
+
+      <!-- <Action ID="RollerGripper" prefix="left" action="open" />
       <Action ID="RollerGripper" prefix="left" action="roll" roller_vel="50" roller_duration="5" />
       <Action ID="RollerGripper" prefix="left" action="close" />
       <Action ID="RollerGripper" prefix="left" action="open" />
@@ -14,7 +16,7 @@
       <Action ID="RollerGripper" prefix="right" action="open" />
       <Action ID="RollerGripper" prefix="right" action="roll" roller_vel="-50" roller_duration="5" />
       <Action ID="RollerGripper" prefix="right" action="close" />
-      <Action ID="RollerGripper" prefix="right" action="open" />
+      <Action ID="RollerGripper" prefix="right" action="open" /> -->
       
     </Sequence>
   </BehaviorTree>

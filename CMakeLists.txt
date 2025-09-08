@@ -15,6 +15,7 @@ find_package(stack_msgs REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 
 ################
 ########    SKILLS LIBRARY
@@ -34,6 +35,7 @@ target_include_directories(softenable_skills PUBLIC
 
 ament_target_dependencies(softenable_skills
   rclcpp
+  std_srvs
   stack_msgs
   sensor_msgs
   geometry_msgs
@@ -58,8 +60,21 @@ ament_target_dependencies(grasp_first_layer
   ament_index_cpp
 )
 
+add_executable(test_nodes src/test_nodes.cpp)
+target_link_libraries(test_nodes softenable_skills)
+ament_target_dependencies(test_nodes 
+  rclcpp 
+  behaviortree_cpp 
+  geometry_msgs
+  stack_msgs
+  tf2_ros
+  tf2_geometry_msgs
+  ament_index_cpp
+)
+
+
 install(TARGETS
-  grasp_first_layer
+  grasp_first_layer test_nodes
   DESTINATION lib/${PROJECT_NAME}
 )
 

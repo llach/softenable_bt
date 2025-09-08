@@ -26,24 +26,6 @@ int main(int argc, char** argv)
     auto left_roller_gripper_client = ros_node->create_client<stack_msgs::srv::RollerGripper>("/left_roller_gripper");
     auto right_roller_gripper_client = ros_node->create_client<stack_msgs::srv::RollerGripper>("/right_roller_gripper");
 
-    while (!move_arm_client->wait_for_service(std::chrono::seconds(5))) {
-        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /move_arm service...");
-    }
-
-    while (!stack_detect_client->wait_for_service(std::chrono::seconds(5))) {
-        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /stack_detect service...");
-    }
-
-    while (!left_roller_gripper_client->wait_for_service(std::chrono::seconds(5))) {
-        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /left_roller_gripper service...");
-    }
-
-    while (!right_roller_gripper_client->wait_for_service(std::chrono::seconds(5))) {
-        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /right_roller_gripper service...");
-    }
-
-    std::cout << "services are connected!\n";
-
     BT::BehaviorTreeFactory factory;
 
     factory.registerNodeType<StoreCurrentJointPos>("StoreCurrentJointPos");
@@ -57,7 +39,7 @@ int main(int argc, char** argv)
     factory.registerNodeType<MoveEEF>("MoveEEF");
 
     std::string package_path = ament_index_cpp::get_package_share_directory("softenable_bt");
-    std::string tree_path = package_path + "/behavior_trees/grasp_first_layer.xml";
+    std::string tree_path = package_path + "/behavior_trees/test_nodes.xml";
 
     auto blackboard = BT::Blackboard::create();
     blackboard->set("ros_node", ros_node);
@@ -66,18 +48,6 @@ int main(int argc, char** argv)
     blackboard->set("stack_detect_client", stack_detect_client);
     blackboard->set("left_roller_gripper_client", left_roller_gripper_client);
     blackboard->set("right_roller_gripper_client", right_roller_gripper_client);
-
-    try {
-        auto pose = tf_wrapper->lookupTransform("map", "right_arm_wrist_3_link", rclcpp::Duration::from_seconds(2.0));
-        RCLCPP_INFO(tf_wrapper->getNode()->get_logger(),
-                    "Got pose: [%.2f, %.2f, %.2f]",
-                    pose.pose.position.x,
-                    pose.pose.position.y,
-                    pose.pose.position.z);
-    } catch (const tf2::TransformException& ex) {
-        RCLCPP_ERROR(tf_wrapper->getNode()->get_logger(), "TF lookup failed: %s", ex.what());
-        return -1;
-    }
 
     auto tree = factory.createTreeFromFile(tree_path, blackboard);
     tree.tickWhileRunning();
