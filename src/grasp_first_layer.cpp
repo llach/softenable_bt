@@ -22,21 +22,24 @@ int main(int argc, char** argv)
     auto tf_wrapper = std::make_shared<softenable_bt::TFListenerWrapper>(ros_node);
     auto move_arm_client = ros_node->create_client<stack_msgs::srv::MoveArm>("/move_arm");
     auto stack_detect_client = ros_node->create_client<stack_msgs::srv::StackDetect>("/stack_detect");
-    auto roller_gripper_client = ros_node->create_client<stack_msgs::srv::RollerGripper>("/roller_gripper");
-
+    auto left_roller_gripper_client = ros_node->create_client<stack_msgs::srv::RollerGripper>("/left_roller_gripper");
+    auto right_roller_gripper_client = ros_node->create_client<stack_msgs::srv::RollerGripper>("/right_roller_gripper");
 
     while (!move_arm_client->wait_for_service(std::chrono::seconds(5))) {
         RCLCPP_INFO(ros_node->get_logger(), "Waiting for /move_arm service...");
     }
 
-    // while (!stack_detect_client->wait_for_service(std::chrono::seconds(5))) {
-    //     RCLCPP_INFO(ros_node->get_logger(), "Waiting for /stack_detect service...");
-    // }
+    while (!stack_detect_client->wait_for_service(std::chrono::seconds(5))) {
+        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /stack_detect service...");
+    }
 
-    // while (!roller_gripper_client->wait_for_service(std::chrono::seconds(5))) {
-    //     RCLCPP_INFO(ros_node->get_logger(), "Waiting for /roller_gripper service...");
-    // }
+    while (!left_roller_gripper_client->wait_for_service(std::chrono::seconds(5))) {
+        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /left_roller_gripper service...");
+    }
 
+    while (!right_roller_gripper_client->wait_for_service(std::chrono::seconds(5))) {
+        RCLCPP_INFO(ros_node->get_logger(), "Waiting for /right_roller_gripper service...");
+    }
 
     std::cout << "services are connected!\n";
 
@@ -60,7 +63,8 @@ int main(int argc, char** argv)
     blackboard->set("tf_wrapper", tf_wrapper);
     blackboard->set("move_arm_client", move_arm_client);
     blackboard->set("stack_detect_client", stack_detect_client);
-    blackboard->set("roller_gripper_client", roller_gripper_client);
+    blackboard->set("left_roller_gripper_client", left_roller_gripper_client);
+    blackboard->set("right_roller_gripper_client", right_roller_gripper_client);
 
     try {
         auto pose = tf_wrapper->lookupTransform("map", "right_arm_wrist_3_link", rclcpp::Duration::from_seconds(2.0));

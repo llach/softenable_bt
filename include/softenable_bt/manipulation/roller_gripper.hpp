@@ -14,6 +14,10 @@ public:
     BT::NodeStatus tick() override;
 
 private:
+    const std::string LEFT_PREFIX_ = "left";
+    const std::string RIGHT_PREFIX_ = "right";
     rclcpp::Node::SharedPtr node_;
-    rclcpp::Client<stack_msgs::srv::RollerGripper>::SharedPtr client_;
+    std::vector<std::string> valid_prefixes_;
+    rclcpp::Client<stack_msgs::srv::RollerGripper>::SharedPtr left_client_;
+    rclcpp::Client<stack_msgs::srv::RollerGripper>::SharedPtr right_client_;
 };

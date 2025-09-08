@@ -6,18 +6,16 @@
     <Sequence name="RootSequence">
       <SetBlackboard output_key="default_controller_name" value="right_arm_joint_trajectory_controller"/>
 
-      <Action ID="RollerGripper" action="open" />
-      <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
+      <Action ID="RollerGripper" prefix="left" action="open" />
+      <Action ID="RollerGripper" prefix="left" action="roll" roller_vel="50" roller_duration="5" />
+      <Action ID="RollerGripper" prefix="left" action="close" />
+      <Action ID="RollerGripper" prefix="left" action="open" />
 
-      <Action ID="StackDetection" stack_pose="{stack_pose}" />
-      <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="right_arm_wrist_3_link" time="15" />
-
-      <Action ID="MoveEEF" y="0.035" time="10"/>
-      <Action ID="RollerGripper" action="close" />
-      <Action ID="RollerGripper" action="open" />
-      <!-- <Action ID="MoveEEF" y="-0.1" time="10"/> -->
-
-      <Action ID="MoveJoint" joint_values="{stored_joints}" time="15" />
+      <Action ID="RollerGripper" prefix="right" action="open" />
+      <Action ID="RollerGripper" prefix="right" action="roll" roller_vel="-50" roller_duration="5" />
+      <Action ID="RollerGripper" prefix="right" action="close" />
+      <Action ID="RollerGripper" prefix="right" action="open" />
+      
     </Sequence>
   </BehaviorTree>
 
