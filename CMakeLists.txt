@@ -16,6 +16,7 @@ find_package(ament_index_cpp REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
+find_package(softenable_display_msgs REQUIRED)
 
 ################
 ########    SKILLS LIBRARY
@@ -42,6 +43,7 @@ ament_target_dependencies(softenable_skills
   tf2_ros
   tf2_geometry_msgs
   behaviortree_cpp
+  softenable_display_msgs
 )
 
 ################
@@ -57,6 +59,7 @@ ament_target_dependencies(grasp_first_layer
   stack_msgs
   tf2_ros
   tf2_geometry_msgs
+  softenable_display_msgs
   ament_index_cpp
 )
 
@@ -69,6 +72,7 @@ ament_target_dependencies(test_nodes
   stack_msgs
   tf2_ros
   tf2_geometry_msgs
+  softenable_display_msgs
   ament_index_cpp
 )
 

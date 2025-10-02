@@ -40,5 +40,8 @@
     <Action ID="StoreCurrentJointPos">
         <output_port name="joint_out" type="JointArray" description="Array of current joint values (6 DOF)" />
     </Action>
+    <Action ID="SetDisplaySkill">
+        <input_port name="preset" type="string" description="preset name" />
+    </Action>
     </TreeNodesModel>
 </root>

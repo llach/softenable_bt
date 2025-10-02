@@ -9,8 +9,7 @@
 #include <behaviortree_cpp/action_node.h>
 #include <behaviortree_cpp/bt_factory.h>
 
-namespace softenable_display_bt
-{
+
 
 /**
  * SetDisplaySkill
@@ -34,8 +33,3 @@ private:
   rclcpp::Client<softenable_display_msgs::srv::SetDisplay>::SharedPtr client_;
   std::string current_service_name_;
 };
-
-}  // namespace softenable_display_bt
-
-// Plugin registration entry point
-BT_REGISTER_NODES(factory);

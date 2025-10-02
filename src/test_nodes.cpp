@@ -15,6 +15,7 @@
 #include "softenable_bt/manipulation/move_joint.hpp"
 #include "softenable_bt/manipulation/move_cartesian.hpp"
 #include "softenable_bt/manipulation/rotate_around_finger.hpp"
+#include "softenable_bt/helpers/set_display.hpp"
 
 int main(int argc, char** argv)
 {
@@ -24,13 +25,16 @@ int main(int argc, char** argv)
     auto tf_wrapper = std::make_shared<softenable_bt::TFListenerWrapper>(ros_node);
     auto move_arm_client = ros_node->create_client<stack_msgs::srv::MoveArm>("/move_arm");
     auto stack_detect_client = ros_node->create_client<stack_msgs::srv::StackDetect>("/stack_detect");
+    auto set_display_client = ros_node->create_client<softenable_display_msgs::srv::SetDisplay>("/set_display");
     auto left_roller_gripper_client = ros_node->create_client<stack_msgs::srv::RollerGripper>("/left_roller_gripper");
     auto right_roller_gripper_client = ros_node->create_client<stack_msgs::srv::RollerGripper>("/right_roller_gripper");
+
 
     BT::BehaviorTreeFactory factory;
 
     factory.registerNodeType<StoreCurrentJointPos>("StoreCurrentJointPos");
     factory.registerNodeType<SAM2Segmentation>("SAM2Segmentation");
+    factory.registerNodeType<SetDisplaySkill>("SetDisplaySkill");
     factory.registerNodeType<TriggerService>("TriggerService");
     factory.registerNodeType<StackDetection>("StackDetection");
     factory.registerNodeType<DINODetection>("DINODetection");
@@ -46,6 +50,7 @@ int main(int argc, char** argv)
     blackboard->set("ros_node", ros_node);
     blackboard->set("tf_wrapper", tf_wrapper);
     blackboard->set("move_arm_client", move_arm_client);
+    blackboard->set("set_display_client", set_display_client);
     blackboard->set("stack_detect_client", stack_detect_client);
     blackboard->set("left_roller_gripper_client", left_roller_gripper_client);
     blackboard->set("right_roller_gripper_client", right_roller_gripper_client);

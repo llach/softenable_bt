@@ -10,6 +10,8 @@
       
       <StoreCurrentJointPos joint_out="{stored_joints}" />
 
+      <Action ID="SetDisplaySkill" preset="approach" />
+
       <!-- <Action ID="RollerGripper" prefix="left" action="open" />
       <Action ID="RollerGripper" prefix="left" action="roll" roller_vel="50" roller_duration="5" />
       <Action ID="RollerGripper" prefix="left" action="close" />
