@@ -63,9 +63,9 @@ BT::NodeStatus StoreCurrentJointPos::tick()
 
     setOutput("joint_out", latest_joints_);
 
-    std::cout << "Stored joints: ";
+    std::cout << "Stored joints: [";
     for (auto j : latest_joints_) std::cout << j << " ";
-    std::cout << "\n";
+    std::cout << "]\n";
 
     return BT::NodeStatus::SUCCESS;
 }

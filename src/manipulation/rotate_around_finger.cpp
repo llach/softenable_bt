@@ -1,9 +1,8 @@
 #include "softenable_bt/manipulation/move_eef.hpp"
 #include <iostream>
 
-
-#include "stack_msgs/srv/move_arm.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
+#include "tf2/exceptions.h"
 
 MoveEEF::MoveEEF(const std::string& name, const BT::NodeConfiguration& config)
     : BT::SyncActionNode(name, config)
@@ -18,21 +17,15 @@ BT::NodeStatus MoveEEF::tick()
     std::string controller_name;
     if (!getInput<std::string>("controller_name", controller_name))
     {
-        // input port not provided, fallback to blackboard directly
         auto blackboard = config().blackboard;
-        if (!blackboard)
-        {
-            throw BT::RuntimeError("Blackboard is nullptr, cannot fallback");
-        }
-
-        if (!blackboard->get("default_controller_name", controller_name))
+        if (!blackboard || !blackboard->get("default_controller_name", controller_name))
         {
             throw BT::RuntimeError("Missing both input port 'controller_name' and blackboard key 'default_controller_name'");
         }
     }
     std::cout << "Using controller " << controller_name << std::endl;
 
-    // Determine prefix from controller name
+    // Determine arm prefix
     std::string prefix;
     if (controller_name.find("right") != std::string::npos)
     {

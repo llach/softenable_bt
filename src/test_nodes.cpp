@@ -14,6 +14,7 @@
 #include "softenable_bt/manipulation/store_current_joint_pos.hpp"
 #include "softenable_bt/manipulation/move_joint.hpp"
 #include "softenable_bt/manipulation/move_cartesian.hpp"
+#include "softenable_bt/manipulation/rotate_around_finger.hpp"
 
 int main(int argc, char** argv)
 {
