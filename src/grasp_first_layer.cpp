@@ -4,6 +4,7 @@
 #include <filesystem>
 #include "ament_index_cpp/get_package_share_directory.hpp"
 
+#include "softenable_bt/helpers/set_display.hpp"
 #include "softenable_bt/helpers/trigger_service.hpp"
 #include "softenable_bt/helpers/tf_listener_wrapper.hpp"
 #include "softenable_bt/perception/stack_detection.hpp"
@@ -53,6 +54,7 @@ int main(int argc, char** argv)
     factory.registerNodeType<DINODetection>("DINODetection");
     factory.registerNodeType<MoveCartesian>("MoveCartesian");
     factory.registerNodeType<RollerGripper>("RollerGripper");
+    factory.registerNodeType<SetDisplay>("SetDisplay");
     factory.registerNodeType<MoveJoint>("MoveJoint");
     factory.registerNodeType<MoveEEF>("MoveEEF");
 
