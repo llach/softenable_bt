@@ -17,6 +17,7 @@ BT::PortsList SetDisplaySkill::providedPorts()
 {
   return {
     BT::InputPort<std::string>("preset", "Preset name to apply"),
+    BT::InputPort<bool>("use_tts", true, "Whether to use TTS when applying the preset"),
   };
 }
 
@@ -33,9 +34,18 @@ BT::NodeStatus SetDisplaySkill::tick()
   }
   std::string preset_name = *name_in;
 
+  // Read 'use_tts' input (default: true)
+  bool use_tts = true;
+  auto use_tts_in = getInput<bool>("use_tts");
+  if (use_tts_in)
+  {
+    use_tts = *use_tts_in;
+  }
+
   // Build request
   auto req = std::make_shared<softenable_display_msgs::srv::SetDisplay::Request>();
   req->name = preset_name;
+  req->use_tts = use_tts;
 
   // Use a single-threaded executor to wait for the response without spinning the global ROS
   rclcpp::executors::SingleThreadedExecutor exec;

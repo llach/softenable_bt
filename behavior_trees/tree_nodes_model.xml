@@ -42,6 +42,7 @@
     </Action>
     <Action ID="SetDisplaySkill">
         <input_port name="preset" type="string" description="preset name" />
+        <input_port name="use_tts" type="bool" description="say the text or no" />
     </Action>
     </TreeNodesModel>
 </root>
