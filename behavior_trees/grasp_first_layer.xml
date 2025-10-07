@@ -25,19 +25,18 @@
 
       <Action ID="SetDisplaySkill" preset="placing" />
        
-    <!--<Action ID="MoveJoint" joint_values="-1.44147;-0.517127;2.03782;3.29179;0.791234;0.0132583" time="{default_trajectory_time}" /> david start pose -->
 
-      <Action ID="MoveJoint" joint_values="-1.1826;-0.669801;1.29451;-1.57216;0.941826;4.03527" time="3.5" /> <!-- pre table -->
-      <Action ID="MoveJoint" joint_values="-0.829086;-1.01202;1.98262;-2.05671;0.951;3.88346" time="2" /> <!-- above table -->
-      <Action ID="MoveJoint" joint_values="-0.731177;-1.07293;1.9299;-1.88504;0.999185;3.78101" time="0.5" /> <!-- close to table -->
+      <Action ID="MoveJoint" joint_values="-1.1826;-0.669801;1.29451;-1.57216;0.941826;4.03527" time="3.5" /> 
+      <Action ID="MoveJoint" joint_values="-0.829086;-1.01202;1.98262;-2.05671;0.951;3.88346" time="2" /> 
+      <Action ID="MoveJoint" joint_values="-0.731177;-1.07293;1.9299;-1.88504;0.999185;3.78101" time="0.5" /> 
 
       <Action ID="RollerGripper" prefix="right" action="open" />
 
-      <Action ID="MoveJoint" joint_values="-0.679236;-1.10291;1.97395;-1.87112;1.0267;3.72891" time="0.5" /> <!-- move back -->
-      <Action ID="MoveJoint" joint_values="-0.740686;-1.06235;2.12228;-2.09265;0.994247;3.7895" time="0.5" /> <!-- move up-->
-      <Action ID="MoveJoint" joint_values="-1.10223;-0.746435;2.00881;-2.5518;0.8478;4.20552" time="1" /> <!-- pre up-->
+      <Action ID="MoveJoint" joint_values="-0.679236;-1.10291;1.97395;-1.87112;1.0267;3.72891" time="0.5" />
+      <Action ID="MoveJoint" joint_values="-0.740686;-1.06235;2.12228;-2.09265;0.994247;3.7895" time="0.5" />
+      <Action ID="MoveJoint" joint_values="-1.10223;-0.746435;2.00881;-2.5518;0.8478;4.20552" time="1" />
 
-      <Action ID="MoveJoint" joint_values="-1.4472;-0.5199;2.0481;-2.9698;0.7930;-0.0089" time="2" /> <!-- david new start pose -->
+      <Action ID="MoveJoint" joint_values="-1.4472;-0.5199;2.0481;-2.9698;0.7930;-0.0089" time="2" />
       
       <Action ID="SetDisplaySkill" preset="unfold_grasping" />
 
@@ -49,7 +48,8 @@
   </BehaviorTree>
 
 </root>
-
+<!-- The move joints are: pre-table, above table, close to table, roller gripper open, move back, move up, pre up, start pose for grasping -->
+    <!--<Action ID="MoveJoint" joint_values="-1.44147;-0.517127;2.03782;3.29179;0.791234;0.0132583" time="{default_trajectory_time}" /> david start pose -->
 
 <!-- 
 RollerGripper examples
