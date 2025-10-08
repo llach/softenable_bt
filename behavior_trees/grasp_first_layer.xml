@@ -7,23 +7,28 @@
       <SetBlackboard output_key="default_controller_name" value="right_arm_joint_trajectory_controller"/>
       <SetBlackboard output_key="default_trajectory_time" value="7"/>
 
-      <Action ID="SetDisplaySkill" preset="welcome" use_tts="false" />
+      <!-- <Action ID="SetDisplaySkill" preset="protocol_1" use_tts="false" /> -->
+
+      <Action ID="SetDisplaySkill" preset="protocol_1" />
 
       <Action ID="RollerGripper" prefix="right" action="open" />
       <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
 
-      <Action ID="SetDisplaySkill" preset="approach" />
 
       <Action ID="StackDetection" stack_pose="{stack_pose}" />
+      <Action ID="SetDisplaySkill" preset="protocol_2" />
+
       <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="right_arm_wrist_3_link" time="2.5" />
+      <!-- <Action ID="SetDisplaySkill" preset="protocol_3" /> -->
+
 
       <Action ID="MoveEEF" y="0.035" time="0.6"/>
       <Action ID="RollerGripper" prefix="right" action="close" />
       <Action ID="MoveEEF" y="-0.1" time="0.7"/>
 
       <Action ID="MoveJoint" joint_values="{stored_joints}" time="1.5" />
+      <Action ID="SetDisplaySkill" preset="protocol_3" />
 
-      <Action ID="SetDisplaySkill" preset="placing" />
        
 
       <Action ID="MoveJoint" joint_values="-1.1826;-0.669801;1.29451;-1.57216;0.941826;4.03527" time="2" /> 
@@ -32,20 +37,31 @@
 
       <Action ID="RollerGripper" prefix="right" action="open" />
 
+      <Action ID="SetDisplaySkill" preset="protocol_4" />
+
+
+
+
       <Action ID="MoveJoint" joint_values="-0.679236;-1.10291;1.97395;-1.87112;1.0267;3.72891" time="0.25" />
       <Action ID="MoveJoint" joint_values="-0.740686;-1.06235;2.12228;-2.09265;0.994247;3.7895" time="0.4" />
+      <Action ID="SetDisplaySkill" preset="protocol_5" />
+      
       <Action ID="MoveJoint" joint_values="-1.10223;-0.746435;2.00881;-2.5518;0.8478;4.20552" time="1" />
 
       <Action ID="MoveJoint" joint_values="-1.4472;-0.5199;2.0481;-2.9698;0.7930;-0.0089" time="1.5" />
       
-      <Action ID="SetDisplaySkill" preset="unfold_grasping" />
 
+      <Action ID="SetDisplaySkill" preset="protocol_6" />
       <TriggerService service_name="/grasp_dual_service"/>
+
+
+      <Action ID="SetDisplaySkill" preset="protocol_7" />
+
       <TriggerService service_name="/gown_unfold_service"/>
 
       <!-- <Action ID="MoveJoint" joint_values="{stored_joints}" time="{default_trajectory_time}" /> -->
 
-      <Action ID="SetDisplaySkill" preset="welcome" use_tts="false" />
+      <Action ID="SetDisplaySkill" preset="protocol_8" use_tts="false" />
     </Sequence>
   </BehaviorTree>
 
