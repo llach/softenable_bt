@@ -18,6 +18,7 @@ BT::PortsList SetDisplaySkill::providedPorts()
   return {
     BT::InputPort<std::string>("preset", "Preset name to apply"),
     BT::InputPort<bool>("use_tts", true, "Whether to use TTS when applying the preset"),
+    BT::InputPort<bool>("blocking", false, "Whether TTS calls are blocking"),
   };
 }
 
@@ -42,10 +43,18 @@ BT::NodeStatus SetDisplaySkill::tick()
     use_tts = *use_tts_in;
   }
 
+  bool blocking = false;
+  auto blocking_in = getInput<bool>("blocking");
+  if (blocking_in)
+  {
+    blocking = *blocking_in;
+  }
+
   // Build request
   auto req = std::make_shared<softenable_display_msgs::srv::SetDisplay::Request>();
   req->name = preset_name;
   req->use_tts = use_tts;
+  req->blocking = blocking;
 
   // Use a single-threaded executor to wait for the response without spinning the global ROS
   rclcpp::executors::SingleThreadedExecutor exec;
@@ -54,7 +63,7 @@ BT::NodeStatus SetDisplaySkill::tick()
   auto future = client_->async_send_request(req);
 
   // Wait a short time for the response
-  auto ret = exec.spin_until_future_complete(future, 2s);
+  auto ret = exec.spin_until_future_complete(future, 20000s);
 
   if (ret != rclcpp::FutureReturnCode::SUCCESS)
   {
