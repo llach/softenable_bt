@@ -6,7 +6,9 @@
     <Sequence name="RootSequence">
       <SetBlackboard output_key="default_controller_name" value="right_arm_joint_trajectory_controller"/>
 
-      <Action ID="SetDisplaySkill" preset="protocol_1" use_tts="true" blocking="true" />
+      <Action ID="SetDisplaySkill" preset="protocol_1" use_tts="true" />
+      <Action ID="Wait" seconds="3" />
+      <Action ID="SetDisplaySkill" preset="protocol_2" use_tts="true" />
 
     </Sequence>
   </BehaviorTree>

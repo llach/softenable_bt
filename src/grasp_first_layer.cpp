@@ -4,6 +4,7 @@
 #include <filesystem>
 #include "ament_index_cpp/get_package_share_directory.hpp"
 
+#include "softenable_bt/helpers/wait.hpp"
 #include "softenable_bt/helpers/set_display.hpp"
 #include "softenable_bt/helpers/trigger_service.hpp"
 #include "softenable_bt/helpers/tf_listener_wrapper.hpp"
@@ -63,6 +64,7 @@ int main(int argc, char** argv)
     factory.registerNodeType<RollerGripper>("RollerGripper");
     factory.registerNodeType<MoveJoint>("MoveJoint");
     factory.registerNodeType<MoveEEF>("MoveEEF");
+    factory.registerNodeType<Wait>("Wait");
 
     std::string package_path = ament_index_cpp::get_package_share_directory("softenable_bt");
     std::string tree_path = package_path + "/behavior_trees/grasp_first_layer.xml";

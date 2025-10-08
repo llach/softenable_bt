@@ -16,6 +16,7 @@
 #include "softenable_bt/manipulation/move_cartesian.hpp"
 #include "softenable_bt/manipulation/rotate_around_finger.hpp"
 #include "softenable_bt/helpers/set_display.hpp"
+#include "softenable_bt/helpers/wait.hpp"
 
 int main(int argc, char** argv)
 {
@@ -42,6 +43,7 @@ int main(int argc, char** argv)
     factory.registerNodeType<RollerGripper>("RollerGripper");
     factory.registerNodeType<MoveJoint>("MoveJoint");
     factory.registerNodeType<MoveEEF>("MoveEEF");
+    factory.registerNodeType<Wait>("Wait");
 
     std::string package_path = ament_index_cpp::get_package_share_directory("softenable_bt");
     std::string tree_path = package_path + "/behavior_trees/test_nodes.xml";
