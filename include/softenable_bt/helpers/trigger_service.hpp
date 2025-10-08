@@ -14,6 +14,7 @@ TriggerService(const std::string& name, const BT::NodeConfig& config);
   BT::NodeStatus tick() override;
 
 private:
+  std::string service_name_;
   rclcpp::Node::SharedPtr node_;
   rclcpp::Client<std_srvs::srv::Trigger>::SharedPtr client_;
 };

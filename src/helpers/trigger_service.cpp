@@ -7,13 +7,12 @@ TriggerService::TriggerService(const std::string& name, const BT::NodeConfig& co
   node_ = config.blackboard->get<rclcpp::Node::SharedPtr>("ros_node");
 
   // Get service name from input port
-  auto service_name = getInput<std::string>("service_name").value();
-
-  client_ = node_->create_client<std_srvs::srv::Trigger>(service_name);
+  service_name_ = getInput<std::string>("service_name").value();
+  client_ = node_->create_client<std_srvs::srv::Trigger>(service_name_);
 
   // Wait until service is available
   if (!client_->wait_for_service(std::chrono::seconds(5))) {
-    throw std::runtime_error("Service " + service_name + " not available");
+    throw std::runtime_error("Service " + service_name_ + " not available");
   }
 }
 
@@ -24,10 +23,12 @@ BT::PortsList TriggerService::providedPorts()
 
 BT::NodeStatus TriggerService::tick()
 {
+  RCLCPP_INFO(node_->get_logger(), "Calling service '%s'", service_name_);
+  
   auto request = std::make_shared<std_srvs::srv::Trigger::Request>();
 
   auto future = client_->async_send_request(request);
-  auto result = rclcpp::spin_until_future_complete(node_, future, std::chrono::seconds(60));
+  auto result = rclcpp::spin_until_future_complete(node_, future, std::chrono::seconds(6000));
 
   auto response = future.get();
   if (response->success) {
