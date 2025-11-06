@@ -7,6 +7,8 @@
       <SetBlackboard output_key="default_controller_name" value="right_arm_joint_trajectory_controller"/>
       <SetBlackboard output_key="default_trajectory_time" value="7"/>
 
+      <TriggerService service_name="/kill_switch"/>
+
       <Action ID="RollerGripper" prefix="right" action="open" />
       <Action ID="StoreCurrentJointPos" joint_out="{stored_joints}" />
 
