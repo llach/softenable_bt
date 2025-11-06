@@ -17,7 +17,7 @@
       <Action ID="StackDetection" stack_pose="{stack_pose}" />
       <Action ID="MoveCartesian" target_pose="{stack_pose}" ik_frame="right_arm_wrist_3_link" time="3.5" />
 
-      <Action ID="MoveEEF" y="0.035" time="1"/>
+      <Action ID="MoveEEF" y="0.045" time="1"/>
       <Action ID="RollerGripper" prefix="right" action="close" />
       <Action ID="MoveEEF" y="-0.1" time="1"/>
 
@@ -34,7 +34,7 @@
       
       <Action ID="MoveJoint" joint_values="-1.10223;-0.746435;2.00881;-2.5518;0.8478;4.20552" time="1" />
 
-      <Action ID="MoveJoint" joint_values="-1.4472;-0.5199;2.0481;-2.9698;0.7930;-0.0089" time="3.5" />
+      <Action ID="MoveJoint" joint_values="-1.4472;-0.5199;2.0481;-2.9698;0.7930;-0.0089" time="2" />
       
       <TriggerService service_name="/grasp_dual_service"/>
       <TriggerService service_name="/gown_unfold_service"/>

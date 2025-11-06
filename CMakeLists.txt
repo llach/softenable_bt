@@ -63,6 +63,19 @@ ament_target_dependencies(grasp_first_layer
   ament_index_cpp
 )
 
+add_executable(unstack_n_grasp src/unstack_n_grasp.cpp)
+target_link_libraries(unstack_n_grasp softenable_skills)
+ament_target_dependencies(unstack_n_grasp 
+  rclcpp 
+  behaviortree_cpp 
+  geometry_msgs
+  stack_msgs
+  tf2_ros
+  tf2_geometry_msgs
+  softenable_display_msgs
+  ament_index_cpp
+)
+
 add_executable(test_nodes src/test_nodes.cpp)
 target_link_libraries(test_nodes softenable_skills)
 ament_target_dependencies(test_nodes 
@@ -79,6 +92,11 @@ ament_target_dependencies(test_nodes
 
 install(TARGETS
   grasp_first_layer test_nodes
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS
+  unstack_n_grasp test_nodes
   DESTINATION lib/${PROJECT_NAME}
 )
 
